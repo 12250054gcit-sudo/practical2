@@ -25,6 +25,11 @@ func InitializeRoutes() {
 	router.HandleFunc("/course/{cid}", controller.UpdateCourse).Methods("PUT")
 	router.HandleFunc("/course/{cid}", controller.DeleteCourse).Methods("DELETE")
 
+	//to serve the static files
+	fHandler := http.FileServer(http.Dir("./view"))
+	//register static file handler to mux router
+	router.PathPrefix("/").Handler(fHandler)
+
 	log.Println("Application running successfully..")
 	// start my server
 	log.Fatal(http.ListenAndServe(":8080", router))
